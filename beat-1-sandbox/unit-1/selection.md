@@ -15,22 +15,61 @@ wrong label is not graded.
 
 **Issue link**
 
-[The individual Path Review issue page. A link to the repository or the issue list
-does not satisfy this field.]
+https://github.com/codepath/pathreview-ai301-fa26-s3/issues/71
 
 **Verdict output**
 
-[Your skill's live-mode output for this issue, pasted verbatim and ending with the
-fenced JSON verdict block. A summary does not satisfy this field.]
-
-**The verdict must record `accept` for this issue.** Choose an issue your own skill
-accepts. If your skill rejects every candidate you try, that is a signal about your
-rubric rather than about the issues: revise it and re-run — retries are unlimited and a
-partial re-run costs about $0.20 — or run the skill on different candidates. Output
-recording `reject` for the issue you chose earns no credit for this field.
-
 ```
-paste the output here, including the closing JSON block
+Issue #71 Evaluation
+
+  ┌──────────────┬───────┬─────────────────────────────────────────────────────────────────────────────────────────┐
+  │    Check     │ Grade │                                        Evidence                                         │
+  ├──────────────┼───────┼─────────────────────────────────────────────────────────────────────────────────────────┤
+  │ Maintainer     │ pass  │ Repository shows maintainer activity within 180 days (commits dated 2026-09-16 and    │
+  │ activity       │       │ earlier)                                                                              │
+  ├────────────────┼───────┼───────────────────────────────────────────────────────────────────────────────────────┤
+  │ Repository     │ pass  │ Multiple commits in September 2026 on default branch within 180 days                  │
+  │ activity       │       │                                                                                       │
+  ├────────────────┼───────┼───────────────────────────────────────────────────────────────────────────────────────┤
+  │                │       │ Concrete outcome: remove indentation from test fixture in                             │
+  │ Newcomer scope │ pass  │ test_extract_heading_hierarchy; identifies tests/unit/test_readme_parser.py and       │
+  │                │       │ ingestion/parsers/readme_parser.py; estimated 1–2 hours                               │
+  ├────────────────┼───────┼───────────────────────────────────────────────────────────────────────────────────────┤
+  │ Issue clarity  │ pass  │ Clearly explains the problem: indentation causes Markdown to treat fixture as code    │
+  │                │       │ block, preventing heading extraction                                                  │
+  ├────────────────┼───────┼───────────────────────────────────────────────────────────────────────────────────────┤
+  │ Existing       │ pass  │ No assignees, no comments or claims; issue is unclaimed                               │
+  │ ownership      │       │                                                                                       │
+  ├────────────────┼───────┼───────────────────────────────────────────────────────────────────────────────────────┤
+  │ Contribution   │ pass  │ docs/CONTRIBUTING.md permits this work type; no AI restriction                        │
+  │ policy         │       │                                                                                       │
+  ├────────────────┼───────┼───────────────────────────────────────────────────────────────────────────────────────┤
+  │ Contribution   │ pass  │ Task is a test fixture formatting fix; uses existing code and tests; no special       │
+  │ fit            │       │ infrastructure                                                                        │
+  └────────────────┴───────┴───────────────────────────────────────────────────────────────────────────────────────┘
+
+  [
+    {
+      "item": "https://github.com/codepath/pathreview-ai301-fa26-s3/issues/71",
+      "checks": [
+        {"name": "Maintainer activity", "grade": "pass", "evidence": "Commits from maintainer dated 2026-09-16, within 
+  180 days"},
+        {"name": "Repository activity", "grade": "pass", "evidence": "Multiple commits in September 2026 on default 
+  branch within 180 days"},
+        {"name": "Newcomer scope", "grade": "pass", "evidence": "Concrete task: remove indentation from 
+  test_extract_heading_hierarchy fixture; identifies test file and parser file; 1–2 hour estimate"},
+        {"name": "Issue clarity", "grade": "pass", "evidence": "Explains problem clearly: indentation makes Markdown 
+  treat fixture as code block, preventing heading detection"},
+        {"name": "Existing ownership", "grade": "pass", "evidence": "No assignees or comments; issue is completely 
+  unclaimed"},
+        {"name": "Contribution policy", "grade": "pass", "evidence": "docs/CONTRIBUTING.md permits this work type; no 
+  AI ban"},
+        {"name": "Contribution fit", "grade": "pass", "evidence": "Test fixture formatting uses existing code and 
+  tests; no private infrastructure"}
+      ],
+      "verdict": "accept"
+    }
+  ]
 ```
 
 ---
@@ -41,27 +80,21 @@ Quote source text directly in each field below. Paraphrase does not satisfy them
 
 **Run history**
 
-[The agreement score of each run you did, in order. A single run is a complete answer if
-only one run occurred. **The last score in your list must match the agreement line in the
-`eval-run.txt` you committed** — that file is the record of your final run.]
+Run #1: agreement: 18/20 scored items  (bar: 18/20: PASS)
 
 **Issue analysis**
 
-[One scored issue, identified by id (`issue-01` through `issue-20`; the `calib-`
-issues are not scored). State your rubric's decision, the gold label, and the
-reasoning that produced your rubric's result.]
+`issue-01` (conda docs: add PyPI installation guide) has gold label **accept**, but my rubric initially returned **reject**. The problem was my **Newcomer scope** check — it treated multi-file tasks as too large. However, this is a bounded, coherent documentation task with clear deliverables, not an unbounded umbrella issue. I revised the check to focus on whether the issue has concrete scope and a clear outcome, rather than penalizing multiple files.
 
 **Check rationale**
 
-[One check from the `rubric.md` uploaded to `tools/issue-select/`, quoted as it is
-currently written, with the reasoning behind its current form.]
+| Repository activity | The repo-facts block showing default-branch commit history and repository activity | Pass if the default branch has at least 3 commits within the last 180 days, or the repository otherwise has documented recent development activity. Fail if there is no documented development activity within the last 180 days. | required |
+
+I included this check because a good first issue should come from an actively maintained repository. Recent default-branch commits provide objective evidence that development is still happening and that contributions are more likely to receive review. The 180-day window gives a reasonable period for measuring recent activity without requiring a project to have extremely frequent commits.
 
 **Trade-offs**
 
-[What the quoted check gives up. Any one of these is a complete answer: an issue whose
-result it changes, a canary you re-ran with `--only`, a case you accept it will miss, or a
-stated reason nothing changed elsewhere. "Nothing changed, and here is how I know" earns
-the point in full when the reason follows.]
+The trade-off of this check is that it may reject repositories that are still maintained but have fewer than three recent default-branch commits. For example, a project could have active issue discussions, releases, or development on other branches without meeting the commit threshold. I accepted this limitation because the goal is to find a first issue in a repository with clear evidence of recent development, and default-branch commits provide a simple and consistent signal for that.
 
 ---
 
@@ -73,12 +106,15 @@ This is also the basis for the claim comment you write in Unit 2.
 
 **Selection rationale**
 
-[Answer all three:
+**1. Issue fit and time available:**
+This issue fits my interests in software engineering and debugging, and the estimated 1–2 hour scope makes it realistic to complete within my available time.
 
-1. The issue's fit to your interests and to the time available.
-2. What the verdict identified correctly, and what you weighed that the rubric could
-   not.
-3. The anticipated difficulty in claiming it.]
+**2. What the verdict identified vs. what I weighed:**
+The rubric correctly identified that the issue is clearly scoped and unclaimed. I also considered my own familiarity with Python and testing, which the rubric could not evaluate.
+
+**3. Anticipated difficulty in claiming:**
+I expect it to be relatively easy to claim because there is currently no assignee or linked PR, although another contributor could claim it first.
+
 
 ---
 
